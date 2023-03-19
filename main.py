@@ -156,6 +156,10 @@ class spell_check:
             bw_word_letters = word_letters[::-1]
             # print(bw_word_letters)
             sets = 0
+
+            if ref in word:
+                sets += 1000000
+
             for x in range(min(len(ref), len(word))):
                 # print("fw")
                 # print(ref_letters[x])
@@ -195,61 +199,58 @@ class spell_check:
         return self.most_frequent(list(final_freq), final_freq)
     
 
-    def search_recommendations(self, word: str)
-        pass
 
 
 if __name__ == "__main__":
-    print("Hello")
     s = spell_check()
 
     """Testing on test list and dict"""
 
-    test_list = ["I", "am", "a", "goofy", "goober", "I", "like", "goofy", "goober", "hello", "hellonc", "helo", "heo", "hello", "hello", "helaso", "helo"]
+    test_list = ["I", "am", "a", "student", "school", "I", "like", "school", "student", "hello", "hellonc", "helo", "heo", "hello", "hello", "helaso", "helo"]
     test_dict = {}
 
     s.update_dict(test_list, test_dict)
     assert test_dict["I"] == 2, "testing dictionary"
 
-    test_contain = s.contains_letters("he", test_dict, 2)
+    # test_contain = s.contains_letters("he", test_dict, 2)
 
-    print(test_contain)
+    # print(test_contain)
 
-    test_correction = s.spell_frequency("hello", test_contain)
+    # test_correction = s.spell_frequency("hello", test_contain)
 
-    print(test_correction)
+    # print(test_correction)
 
-    test_freq_dict = s.most_frequent(test_contain, test_dict)
+    # test_freq_dict = s.most_frequent(test_contain, test_dict)
 
-    print(test_freq_dict)
+    # print(test_freq_dict)
 
-    test_freq_words = s.most_frequent(test_contain, test_correction)
+    # test_freq_words = s.most_frequent(test_contain, test_correction)
 
-    print(test_freq_words)
+    # print(test_freq_words)
 
-    test_final_freq = s.calculate_final_freqency(test_freq_words, test_freq_dict, 10)
+    # test_final_freq = s.calculate_final_freqency(test_freq_words, test_freq_dict, 10)
 
-    print(test_final_freq)
+    # print(test_final_freq)
 
     """Testing on actual data"""
 
-    print(s.words_dict["hello"])
+    # print(s.words_dict["hello"])
 
-    test_contain_2 = s.contains_letters("banana", s.words_dict, 2)
+    # test_contain_2 = s.contains_letters("drem", s.words_dict, 2)
 
-    # print(test_contain_2)
+    # # print(test_contain_2)
 
-    test_correction_2 = s.spell_frequency("banana", test_contain_2)
+    # test_correction_2 = s.spell_frequency("drem", test_contain_2)
 
-    # print(test_correction_2)
+    # # print(test_correction_2)
 
     '''finds frequency of words spelled within 2 letters'''
-    test_freq_2 = s.most_frequent(test_contain_2, test_correction_2)
+    # test_freq_2 = s.most_frequent(test_contain_2, test_correction_2)
 
     # print(test_freq_2)
 
     '''finds frequency of word use in the words_dict from data'''
-    test_freq_3 = s.most_frequent(test_contain_2, s.words_dict)
+    # test_freq_3 = s.most_frequent(test_contain_2, s.words_dict)
 
     # print(test_freq_3)
 
@@ -258,12 +259,31 @@ if __name__ == "__main__":
     # print(len(test_freq_2))
     # print(len(test_freq_3))
 
-    test_final_freq_2 = s.calculate_final_freqency(test_freq_2, test_freq_3, 10)
+    # test_final_freq_2 = s.calculate_final_freqency(test_freq_2, test_freq_3, 10)
 
     # print(test_final_freq_2)
 
-    query = "Did you mean:"
-    for x in test_final_freq_2.keys():
-        query = query + " " + x + ","
+    # query = "Did you mean:"
+    # for x in test_final_freq_2.keys():
+    #     query = query + " " + x + ","
 
-    print(query + "?")
+    # print(query + "?")
+
+    while(True):
+        userin = input("Enter Word: ")
+        if userin == "break":
+            break
+
+        if userin in s.words_dict:
+            print("This word appears in the dictionary.")
+        else:
+            words_containing_same_letters = s.contains_letters(userin, s.words_dict, 2)
+            words_with_similar_spelling = s.spell_frequency(userin, words_containing_same_letters)
+            words_with_similar_spelling = s.most_frequent(words_containing_same_letters, words_with_similar_spelling)
+            words_with_high_freq = s.most_frequent(words_containing_same_letters, s.words_dict)
+
+            possible_words = s.calculate_final_freqency(words_with_similar_spelling, words_with_high_freq, 10)
+
+
+            words = ", ".join(possible_words.keys())
+            print("Did you mean: " + words + "?")    
