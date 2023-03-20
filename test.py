@@ -21,3 +21,15 @@ for word in words:
     for x in range(len(bw_word_letters)):
         print(bw_word_letters[x])
 
+
+
+        """this chunk checks if a the words in a list DO NOT contain the letters of the reference word"""
+        # words_list = list((copy.deepcopy(words)).keys())
+
+        # for word in words.keys():
+        #     for letters in word:
+        #         if letters not in ref:
+        #             if word in words_list:
+        #                 words_list.remove(word)
+
+        # return words_list

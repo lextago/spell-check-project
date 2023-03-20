@@ -91,17 +91,6 @@ class spell_check:
         copy_words = list((copy.deepcopy(words)).keys())
         words_list = copy.deepcopy(copy_words)
 
-        """this chunk checks if a the words in a list DO NOT contain the letters of the reference word"""
-        # words_list = list((copy.deepcopy(words)).keys())
-
-        # for word in words.keys():
-        #     for letters in word:
-        #         if letters not in ref:
-        #             if word in words_list:
-        #                 words_list.remove(word)
-
-        # return words_list
-
         """this chunk checks if the words in a list DO contain the letters of the reference word"""
         for letters in ref:
             for word in copy_words:
@@ -109,16 +98,12 @@ class spell_check:
                     if word in words_list:
                         words_list.remove(word)
 
-        # print(words_list)
-
         new_words_list = copy.deepcopy(words_list)
 
         for word in new_words_list:
-            # print(word)
             word_letters = []
             for letters in word:
                 word_letters.append(letters)
-            # print(word_letters)
 
             '''list of letter differences between word from list and reference word'''
             diff_list = []
@@ -126,7 +111,6 @@ class spell_check:
             for letters in word_letters:
                 if letters not in ref:
                     diff_list.append(letters)
-            # print(diff_list)
 
             if len(diff_list) > rang:
                 if word in words_list:
@@ -152,23 +136,15 @@ class spell_check:
 
         for word in words:
             word_letters = [*word]
-            # print(word_letters)
             bw_word_letters = word_letters[::-1]
-            # print(bw_word_letters)
             sets = 0
 
             if ref in word:
                 sets += 1000000
 
             for x in range(min(len(ref), len(word))):
-                # print("fw")
-                # print(ref_letters[x])
-                # print(word_letters[x])
                 if ref_letters[x] == word_letters[x]:
                     sets += 1
-                # print("bw")
-                # print(bw_ref_letters[x])
-                # print(bw_word_letters[x])
                 if bw_ref_letters[x] == bw_word_letters[x]:
                     sets += 1
             words_corrections_rating[word] = sets
@@ -194,7 +170,7 @@ class spell_check:
 
         for word in list(spell_freq.keys())[:rang]:
             if(spell_freq[word] != 0) and usage_freq[word] != 0:
-                final_freq[word] = math.log(spell_freq[word] / sum(spell_freq.values())) + math.log(usage_freq[word] / sum(usage_freq.values()))
+                final_freq[word]=math.log(spell_freq[word]/sum(spell_freq.values()))+math.log(usage_freq[word]/sum(usage_freq.values()))
 
         return self.most_frequent(list(final_freq), final_freq)
     
@@ -277,7 +253,7 @@ if __name__ == "__main__":
         if userin in s.words_dict:
             print("This word appears in the dictionary.")
         else:
-            words_containing_same_letters = s.contains_letters(userin, s.words_dict, 2)
+            words_containing_same_letters = s.contains_letters(userin, s.words_dict, 3)
             words_with_similar_spelling = s.spell_frequency(userin, words_containing_same_letters)
             words_with_similar_spelling = s.most_frequent(words_containing_same_letters, words_with_similar_spelling)
             words_with_high_freq = s.most_frequent(words_containing_same_letters, s.words_dict)
