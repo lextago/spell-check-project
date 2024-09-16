@@ -1,5 +1,6 @@
 # spell-check-project
 Intro to AI Project - Period 2 by Alex Tago and Maddy Rowe
+(https://docs.google.com/presentation/d/16Fz8bPqKR9NGAV5MPgmiFuE_29n03I9wxmG7isovFuU/edit?usp=sharing)
 
 https://norvig.com/spell-correct.html
 Shamelessly basing this project off of Peter Norvig’s project!
